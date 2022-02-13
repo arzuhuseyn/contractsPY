@@ -1,6 +1,6 @@
 from typing import Any
 
-from exceptions import StateException
+from contractsPY.exceptions import StateException
 
 
 class State:

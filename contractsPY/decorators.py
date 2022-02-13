@@ -1,4 +1,4 @@
-from result import ResultCase, Result
+from contractsPY.result import ResultCase, Result
  
  
 def if_fails(message):

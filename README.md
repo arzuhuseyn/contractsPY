@@ -9,9 +9,9 @@ validate business transactions with Railway-oriented approach.
 Tested on Python 3.8+
 
 
-### Contracts
+### Contract functions
 
-Contracts are simple python functions that return True or False. They are
+Contract functions are simple python functions that return True or False. They are
 used to define business rules for transactions. They accept only one argument,
 which is the current state of the transaction.
 

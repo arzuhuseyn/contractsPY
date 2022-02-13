@@ -1,5 +1,5 @@
-from decorators import if_fails
-from usecase import Usecase
+from contractsPY.decorators import if_fails
+from contractsPY.usecase import Usecase
 
 user_repo = None
 user_factory = None

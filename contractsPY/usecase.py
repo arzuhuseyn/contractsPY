@@ -1,8 +1,8 @@
 from typing import Any
 
-from state import State
-from result import Result
-from exceptions import StateException, ContractException
+from contractsPY.state import State
+from contractsPY.result import Result
+from contractsPY.exceptions import StateException, ContractException
 
 
 class Usecase:
