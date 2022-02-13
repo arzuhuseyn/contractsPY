@@ -21,7 +21,7 @@ def my_contract(state):
 ```
 
 
-**Example (Create User):**
+### Example (Create User):
 
 Let's assume we have a user service that creates a new user. There are multiple steps to create a new user. 
 
@@ -79,16 +79,24 @@ register_user.contract = [
 ]
 
 if  __name__ == '__main__':
-    r = register_user.apply(password='123')
-    if r.is_success():
-        print(r)
+    r = register_user.apply(username='johndoe', password='foobar')
+    print(r)
 
 ```
 
 **Result:**
 
+As you can see from the Result, user was not created. The reason is that the user already exists.
+Now, we can handle the failure case, and send proper error messages to the user.
+
 ```python
->>> Result(value={'password': '123', 'result': 'Great'}, case=success)
+>>> Result(value=False, case=error, reason=user_exists)
+```
+
+If there was no failure, the result should have been like this:
+
+```python
+>>> Result(value={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar), 'result': User(username=johndoe, password=foobar)}, case=success)
 ```
 
 

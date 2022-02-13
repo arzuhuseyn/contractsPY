@@ -4,6 +4,14 @@ from usecase import Usecase
 user_repo = None
 user_factory = None
 
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        
+    def __repr__(self):
+        return f'User(username={self.username}, password={self.password})'
+
 
 # TODO: Implement proper tests
 
@@ -22,11 +30,12 @@ def validate_user_exists(state):
 
 @if_fails(message="not_generated")
 def generate_user(state):
+    state.user = User(state.username, state.password)
     return True
 
 @if_fails(message="not_persisted")
 def persist_user(state):
-    state.result = 'Great'
+    state.result = state.user
     return True if state.result else False
 
 register_user = Usecase()
@@ -38,6 +47,5 @@ register_user.contract = [
 ]
 
 if  __name__ == '__main__':
-    r = register_user.apply(password='123')
-    if r.is_success():
-        print(r)
+    r = register_user.apply(username='johndoe', password='foobar')
+    print(r)
