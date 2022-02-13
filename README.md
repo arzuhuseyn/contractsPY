@@ -8,6 +8,14 @@ validate business transactions with Railway-oriented approach.
 
 Tested on Python 3.8+
 
+### Installation
+
+There is no additional dependencies. Library's footprint is small.
+
+```bash
+>>> pip install contractsPY
+```
+
 
 ### Contract functions
 
