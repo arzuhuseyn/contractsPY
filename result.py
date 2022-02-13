@@ -26,6 +26,11 @@ class Result(object):
     def is_failed(self) -> bool:
         return self.case == ResultCase.ERROR
     
+    @property
+    def failure_reason(self):
+        if self.is_failed():
+            return self.reason
+    
     def get_result(self) -> Any:
         if not self.value.result:
             raise Exception('Result is not valid')
