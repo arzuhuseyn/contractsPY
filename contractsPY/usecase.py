@@ -1,7 +1,8 @@
 from typing import Any
 
+from contractsPY.decorators import chained
 from contractsPY.state import State
-from contractsPY.result import Result
+from contractsPY.result import Result, ResultCase
 from contractsPY.exceptions import StateException, ContractException
 
 
@@ -57,13 +58,8 @@ class Usecase:
         
         for func in self.contract:
            
-            result = func(self.state)
-            
+            result = chained(self.state)(func)
             if not result.is_success():
                 return result
-            
-            if func == self.contract[-1]:
-                if not self.state.result:
-                    raise StateException('Result is not set')
                 
-        return Result(self.state, 'success')
+        return Result(self.state, ResultCase.SUCCESS)

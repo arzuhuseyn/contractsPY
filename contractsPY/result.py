@@ -8,17 +8,15 @@ class ResultCase:
 
 
 class Result(object):
-    __slots__ = ('value', 'case', 'reason')
+    __slots__ = ('state', 'case', 'message')
     
-    def __init__(self, value: dict, case: str) -> None:
-        self.value = value
+    def __init__(self, state: dict, case: str) -> None:
+        self.state = state
         self.case = case
-        self.reason = None
+        self.message = None
         
     def __repr__(self) -> str:
-        if self.case == ResultCase.SUCCESS:
-            return f'Result(value={self.value}, case={self.case})'
-        return f'Result(value={self.value}, case={self.case}, reason={self.reason})'
+        return f'Result(state={self.state}, case={self.case}, message={self.message})'
     
     def is_success(self) -> bool:
         return self.case == ResultCase.SUCCESS
@@ -29,9 +27,4 @@ class Result(object):
     @property
     def failure_reason(self):
         if self.is_failed():
-            return self.reason
-    
-    def get_result(self) -> Any:
-        if not self.value.result:
-            raise Exception('Result is not valid')
-        return self.value.result
+            return self.message

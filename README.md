@@ -49,46 +49,44 @@ Whenever you call a function, there are two possible returns (success and failur
 
 
 ```python
-from contractspy import if_fails, UseCase
+from contractspy import if_fails, Usecase
 
 
 @if_fails(message="not_valid")
 def validate_inputs(state):
-    ...
-    return True if state.password else False
-
-@if_fails(message="user_exists")
-def validate_user_exists(state):
-    ...
+    if state.password and state.username:
+        return True
     return False
 
 @if_fails(message="not_generated")
 def generate_user(state):
-    ...
-    return True
+    state.user = User(state.username, state.password)
+    return True if state.user else False
 
-@if_fails(message="email_not_sent")
-def send_activation(state):
-    ...
+@if_fails(message="user_exists")
+def validate_user_exists(state):
+    for user in users:
+        if user.username == state.user.username:
+            return False
     return True
 
 @if_fails(message="not_persisted")
-def return_user(state): # You should set the result value in the last step
-    ...
-    return True if state.result else False
+def persist_user(state):
+    users.append(state.user)
+    return True if state.user else False
+
 
 register_user = Usecase()
 register_user.contract = [
     validate_inputs,
-    validate_user_exists,
     generate_user,
-    send_activation
-    return_user
+    validate_user_exists,
+    persist_user
 ]
 
 if  __name__ == '__main__':
-    r = register_user.apply(username='johndoe', password='foobar')
-    print(r)
+    result = register_user.apply(username='johndoe', password='foobar')
+    print(result)
 
 ```
 
@@ -98,13 +96,24 @@ As you can see from the Result, user was not created. The reason is that the use
 Now, we can handle the failure case, and send proper error messages to the user.
 
 ```python
->>> Result(value=False, case=error, reason=user_exists)
+>>> Result(state={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}, case=error, message=user_exists)
 ```
+
+Result object containes three fields. State, case and message. You can check the case and message to see what went wrong. If everything went well, you can pick a user from the state.
+
+```python
+result.state = {'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}
+
+result.case = error
+
+result.message = 'user_exists'
+```
+
 
 If there was no failure, the result should have been like this:
 
 ```python
->>> Result(value={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar), 'result': User(username=johndoe, password=foobar)}, case=success)
+>>> Result(state={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}, case=success, message=None)
 ```
 
 
