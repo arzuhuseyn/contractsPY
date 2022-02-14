@@ -99,7 +99,7 @@ Now, we can handle the failure case, and send proper error messages to the user.
 >>> Result(state={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}, case=error, message=user_exists)
 ```
 
-Result object containes three fields. State, case and message. You can check the case and message to see what went wrong. If everything went well, you can pick a user from the state.
+The result object contains three fields. State, case, message. You can check the case and message to see what went wrong. If everything went well, you can pick a value from the state dictionary.
 
 ```python
 result.state = {'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}
