@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Any
 
 
-class ResultCase:
+class ResultCase(Enum):
     SUCCESS = 'success'
     ERROR = 'error'
 
@@ -13,16 +13,16 @@ class Result(object):
     def __init__(self, state: dict, case: str) -> None:
         self.state = state
         self.case = case
-        self.message = None
+        self.message = "OK"
         
     def __repr__(self) -> str:
         return f'Result(state={self.state}, case={self.case}, message={self.message})'
     
     def is_success(self) -> bool:
-        return self.case == ResultCase.SUCCESS
+        return self.case == ResultCase.SUCCESS.value
     
     def is_failed(self) -> bool:
-        return self.case == ResultCase.ERROR
+        return self.case == ResultCase.ERROR.value
     
     @property
     def failure_reason(self):

@@ -10,20 +10,28 @@ def if_fails(message):
 
 def chained(state):
     def wrapper(func):
+        
+        expected_result = func(state)
+        # If message is not set, then message should be a func name
+        if hasattr(func, 'message'):
+            message = func.message
+        else:
+            message = func.__name__
+            
         try:
-            expected_result = func(state)
             if not expected_result:
-                result = Result(state, case=ResultCase.ERROR)
-                result.message = expected_result.message
+                result = Result(state, case=ResultCase.ERROR.value)
+                result.message = message
                 return result
             
             return Result(
                 state,
-                case=ResultCase.SUCCESS
+                case=ResultCase.SUCCESS.value
             )
         except:
-            result = Result(state, case=ResultCase.ERROR)
-            result.message = func.message
+            result = Result(state, case=ResultCase.ERROR.value)
+            result.message = message
             return result
+        
     return wrapper
     

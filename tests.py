@@ -23,25 +23,25 @@ users.append(test_user)
 
 # Usecase 1 - Create user
 
-@if_fails(message="not_valid")
+@if_fails(message="Not validated.")
 def validate_inputs(state):
     if state.password and state.username:
         return True
     return False
 
-@if_fails(message="not_generated")
+@if_fails(message="User not generated.")
 def generate_user(state):
     state.user = User(state.username, state.password)
     return True if state.user else False
 
-@if_fails(message="user_exists")
+@if_fails(message="User exists.")
 def validate_user_exists(state):
     for user in users:
         if user.username == state.user.username:
             return False
     return True
 
-@if_fails(message="not_persisted")
+@if_fails(message="User not saved.")
 def persist_user(state):
     users.append(state.user)
     return True if state.user else False

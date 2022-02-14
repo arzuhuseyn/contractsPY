@@ -28,6 +28,11 @@ def my_contract(state):
     return state.a > state.b
 ```
 
+### if_fails decorator
+
+You can use the `if_fails` decorator to define a message if the contract fails. This decorator
+is optional. If you don't use it, the message will be the name of the contract function.
+
 
 ### Example (Create User):
 
@@ -52,29 +57,28 @@ Whenever you call a function, there are two possible returns (success and failur
 from contractspy import if_fails, Usecase
 
 
-@if_fails(message="not_valid")
+@if_fails(message="Not validated.")
 def validate_inputs(state):
     if state.password and state.username:
         return True
     return False
 
-@if_fails(message="not_generated")
+@if_fails(message="User not generated.")
 def generate_user(state):
     state.user = User(state.username, state.password)
     return True if state.user else False
 
-@if_fails(message="user_exists")
+@if_fails(message="User exists.")
 def validate_user_exists(state):
     for user in users:
         if user.username == state.user.username:
             return False
     return True
 
-@if_fails(message="not_persisted")
+@if_fails(message="User not saved.")
 def persist_user(state):
     users.append(state.user)
     return True if state.user else False
-
 
 register_user = Usecase()
 register_user.contract = [
@@ -96,7 +100,7 @@ As you can see from the Result, user was not created. The reason is that the use
 Now, we can handle the failure case, and send proper error messages to the user.
 
 ```python
->>> Result(state={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}, case=error, message=user_exists)
+>>> Result(state={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}, case=error, message='User exists.')
 ```
 
 The result object contains three fields. State, case, message. You can check the case and message to see what went wrong. If everything went well, you can pick a value from the state dictionary.
@@ -106,14 +110,14 @@ result.state = {'username': 'johndoe', 'password': 'foobar', 'user': User(userna
 
 result.case = error
 
-result.message = 'user_exists'
+result.message = 'User exists.'
 ```
 
 
 If there was no failure, the result should have been like this:
 
 ```python
->>> Result(state={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}, case=success, message=None)
+>>> Result(state={'username': 'johndoe', 'password': 'foobar', 'user': User(username=johndoe, password=foobar)}, case=success, message='Ok')
 ```
 
 

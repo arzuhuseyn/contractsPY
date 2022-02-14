@@ -62,4 +62,4 @@ class Usecase:
             if not result.is_success():
                 return result
                 
-        return Result(self.state, ResultCase.SUCCESS)
+        return Result(self.state, ResultCase.SUCCESS.value)
