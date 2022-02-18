@@ -33,6 +33,10 @@ def my_contract(state):
 You can use the `if_fails` decorator to define a message if the contract fails. This decorator
 is optional. If you don't use it, the message will be the name of the contract function.
 
+### State object
+All contract functions accept a single argument, which is the current state of the transaction.
+State is the dictionary that contains all the data of the transaction. You can set and get
+values from the state. For example: `state.a = 10` or `state.b = state.a + 1`. Remember that, state keys are immutable. So, you can't change the state key-value pairs after you set them. For example, you can't do `state.a = 10` and then `state.a = 20`.
 
 ### Example (Create User):
 

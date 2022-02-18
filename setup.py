@@ -29,7 +29,7 @@ CLASSIFIERS = [
 
 setup(
     name='contractsPY',
-    version='1.0.3',
+    version='1.0.4',
     description='Python Business Transactions Library',
     long_description=README,
     long_description_content_type="text/markdown",

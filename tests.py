@@ -17,7 +17,7 @@ class User:
 
 users = []
 
-test_user = User(username='test', password='test')
+test_user = User(username='tesdt', password='test')
 
 users.append(test_user)
 

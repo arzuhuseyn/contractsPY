@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List, Dict
 
 from contractsPY.decorators import chained
 from contractsPY.state import State
@@ -15,10 +15,10 @@ class Usecase:
             apply - execute contract functions
     """
     __state = State()
-    __contract = []
+    __contract : List = []
     
     @property
-    def state(self) -> State:
+    def state(self) -> Dict[str, Any]:
         return self.__state
     
     @state.setter
