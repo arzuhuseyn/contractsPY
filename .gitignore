@@ -2,3 +2,6 @@ __pycache__/
 contractsPY.egg-info/
 dist/
 venv/
+.mypy_cache/
+.pytest_cache/
+build/
