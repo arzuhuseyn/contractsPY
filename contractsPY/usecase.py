@@ -1,6 +1,6 @@
 from typing import Any, Dict, Tuple
 
-from contractsPY.decorators import chained
+from contractsPY.decorators import chained, async_chained
 from contractsPY.state import State
 from contractsPY.result import Result, ResultCase
 from contractsPY.exceptions import ContractException
@@ -66,4 +66,18 @@ class Usecase:
                 return result
         
 
+        return Result(self.state, ResultCase.SUCCESS.value)
+    
+    
+class AsyncUsecase(Usecase):
+    
+    async def apply(self, **kwargs) -> Result:
+        self.state = kwargs
+        
+        for func in self.contract:
+            
+            result = await async_chained(self.state)(func)
+            if not result.is_success():
+                return result
+        
         return Result(self.state, ResultCase.SUCCESS.value)
